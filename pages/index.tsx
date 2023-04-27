@@ -31,15 +31,16 @@ export default function Home() {
   useEffect(() => {
     const checkStatus = async () => {
       try {
-        const res = await fetch(
-          `https://e9d4-24-86-223-157.ngrok-free.app/user/${session?.user?.email}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-            },
-          }
-        );
+        const res = await fetch(`${process.env.BACKEND_URL}/retrieve`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: session?.user?.email,
+          }),
+        });
+
         const resJson = await res.json();
         const isActivated = resJson.is_active;
         setIsActivated(isActivated);
@@ -55,19 +56,16 @@ export default function Home() {
   const activate = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(
-        "https://e9d4-24-86-223-157.ngrok-free.app/user/activate",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: session?.user?.email,
-            password: password,
-          }),
-        }
-      );
+      const res = await fetch(`${process.env.BACKEND_URL}/activate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: session?.user?.email,
+          password: password,
+        }),
+      });
 
       if (res.status === 200) {
         setIsLoading(false);
@@ -83,19 +81,16 @@ export default function Home() {
   const deactivate = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(
-        "https://e9d4-24-86-223-157.ngrok-free.app/user/deactivate",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: session?.user?.email,
-            password: password,
-          }),
-        }
-      );
+      const res = await fetch(`${process.env.BACKEND_URL}/deactivate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: session?.user?.email,
+          password: password,
+        }),
+      });
       if (res.status === 200) {
         setIsLoading(false);
         setIsSuccess(true);
