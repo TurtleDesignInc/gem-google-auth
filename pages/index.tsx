@@ -91,6 +91,7 @@ export default function Home() {
           password: password,
         }),
       });
+      console.log(await res);
       if (res.status === 200) {
         setIsLoading(false);
         setIsSuccess(true);
